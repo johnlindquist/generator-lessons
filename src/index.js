@@ -1,18 +1,16 @@
 
 
-let promises = [
-    Promise.resolve(1),
-    Promise.resolve(2),
-    new Promise(resolve => {
-        setTimeout(() => {
-            resolve(3)
-        }, 3000)
-    })
-]
+async function* users() {
+    let names = ["johnlindquist", "eggheadio"]
+    for (let name of names) {
+        let response = await fetch(`https://api.github.com/users/${name}`)
+        yield response.json()
+    }
+}
 
 async function start() {
-    for await (let promise of promises) {
-        console.log(promise)
+    for await (let user of users()) {
+        console.log(user.name)
     }
 }
 
