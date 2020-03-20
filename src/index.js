@@ -1,20 +1,19 @@
-function* generator() {
-    //first iteration
-    yield 1
 
-    //second iteration
-    console.log("second")
-    yield 2
 
-    //third iteration
-    console.log("third")
+let promises = [
+    Promise.resolve(1),
+    Promise.resolve(2),
+    new Promise(resolve => {
+        setTimeout(() => {
+            resolve(3)
+        }, 3000)
+    })
+]
+
+async function start() {
+    for await (let promise of promises) {
+        console.log(promise)
+    }
 }
 
-const iterator = generator()
-
-console.log(iterator.next())
-console.log(iterator.next())
-console.log(iterator.next())
-
-
-
+start()
